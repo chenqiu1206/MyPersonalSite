@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* 记忆目录与构建产物都不是页面源码：不排除的话，其中出现的类名会被当作候选类编进产物 */
+@source not "../.codebuddy";
+@source not "../dist";
+
+/* ------------------------------------------------------------------ */
+/* 设计令牌（Tailwind v4 @theme）                                      */
+/* 灰白主题：只使用中性灰阶，不引入任何彩色强调                        */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-ink-950: #ffffff;
+  --color-ink-900: #fafafa;
+  --color-ink-850: #ffffff;
+  --color-ink-800: #f4f4f5;
+  --color-ink-750: #ececee;
+  --color-ink-700: #e4e4e7;
+
+  --color-line: rgba(24, 24, 27, 0.08);
+  --color-line-strong: rgba(24, 24, 27, 0.18);
+
+  /* 强调色退化为灰阶，仅保留工具类别名，不再产生彩色 */
+  --color-accent-200: #e4e4e7;
+  --color-accent-300: #a1a1aa;
+  --color-accent-400: #52525b;
+  --color-accent-500: #27272a;
+  --color-accent-600: #18181b;
+
+  --color-mint-400: #71717a;
+
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* 基础层                                                              */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-900 text-slate-600;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* 抽屉打开时锁定背景滚动 */
+  body.is-scroll-locked {
+    overflow: hidden;
+  }
+
+  ::selection {
+    background-color: rgba(24, 24, 27, 0.12);
+    color: #18181b;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-400);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(24, 24, 27, 0.2) transparent;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 减少动效偏好：只关掉关键帧动画，保留折叠/淡入这类功能性过渡         */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
