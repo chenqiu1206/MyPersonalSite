@@ -67,6 +67,12 @@ v4 的位移 / 缩放 / 旋转工具类使用**独立 CSS 属性**，不再是 `
 
 所以给这些类做过渡时，`transition-[transform]` **无效**，必须写成对应的属性名，例如 `transition-[translate,color,opacity]`。只有内联 `style="transform: ..."` 或自写 CSS 里的 `transform` 才用 `transition-transform`。用 `transition-all` 则不必区分。
 
+## 文档与截图
+
+- `README.md` 已存在，含 5 张配图（`docs/screenshots/`）、功能实现分布表、关键实现说明、内容维护指南。改功能后需同步更新其中「功能与实现分布」表。
+- **截图方法（不装 playwright）**：系统有 Chrome，用 CDP 直连即可——`chrome --headless=new --remote-debugging-port=9333 --user-data-dir=<temp>`，Node 24 的全局 `WebSocket` 连 `/json/list` 的 `webSocketDebuggerUrl`；`Emulation.setDeviceMetricsOverride` 控视口、`Runtime.evaluate` 做点击、`Page.getLayoutMetrics` + `captureBeyondViewport` 出整页图。
+- **禁止用加高窗口拍全页**：窗口高 > 宽会触发 `min-aspect-ratio: 1/1` 降级，侧栏消失。必须保持 1440×900 视口再用 `clip` 扩展。
+
 ## 待办
 
 - `src/content/*.js` 全部是示例占位内容，需替换为真实资料；侧栏头像是首字母占位（`profile.initials`），替换真实照片需改 `Sidebar.vue` 为 `<img>`。
